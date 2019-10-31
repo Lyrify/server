@@ -1,5 +1,6 @@
-const router = require('express').Router()
+const router = require('express').Router();
+const translateRouter = require('./translateRoute.js');
 
-// router (get, post, put, patch, delete)
+router.use('/translate', translateRouter);
 
-module.exports = router
+module.exports = router;
