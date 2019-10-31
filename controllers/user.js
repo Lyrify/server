@@ -1,4 +1,3 @@
-const getResponse = require('../helpers/getResponse');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const { User } = require('../models');
@@ -59,12 +58,14 @@ class UserController {
 		User.create({
 			email: req.body.email,
 			login_type: req.body.type || 'default',
-			password: hash(req.body.password)
-		}).then(user => {
-			res.status(201).json({
-				token_id: encode(user)
-			});
-		});
+			password: req.body.password
+		})
+			.then(user => {
+				res.status(201).json({
+					token_id: encode(user)
+				});
+			})
+			.catch(next);
 	}
 }
 
