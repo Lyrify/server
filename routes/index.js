@@ -1,5 +1,6 @@
 const router = require('express').Router()
+const musicRoute = require('./music')
 
-// router (get, post, put, patch, delete)
+router.use('/music', musicRoute)
 
 module.exports = router
