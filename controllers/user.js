@@ -40,10 +40,16 @@ class UserController {
 							token_id: encode(user)
 						});
 					} else {
-						next(new Error('Invalid email/password'));
+						const err = new Error();
+						err.name = 'validationError';
+						err.status = 401;
+						next(err);
 					}
 				} else {
-					next(new Error('Invalid email/password'));
+					const err = new Error();
+					err.name = 'validationError';
+					err.status = 401;
+					next(err);
 				}
 			})
 			.catch(next);
@@ -53,7 +59,7 @@ class UserController {
 		User.create({
 			email: req.body.email,
 			login_type: req.body.type || 'default',
-			password: req.body.password
+			password: hash(req.body.password)
 		}).then(user => {
 			res.status(201).json({
 				token_id: encode(user)
