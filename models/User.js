@@ -24,9 +24,12 @@ const userSchema = new Schema({
 	},
 	password: {
 		type: String,
-		required: function(v) {
-			return this.login_type === 'default';
-		}
+		required: [
+			function(v) {
+				return this.login_type === 'default';
+			},
+			'password required.'
+		]
 	}
 });
 

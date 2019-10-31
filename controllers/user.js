@@ -1,9 +1,10 @@
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const { User } = require('../models');
-const encode = require('../helpers/encodeLoginToken');
-const { hash } = require('../helpers/passwordHandler');
-const { verify } = require('../helpers/passwordHandler');
+const { passwordHandler, tokenHandler } = require('../helpers');
+// const encode = require('../helpers/tokenHandler');
+// const { hash } = require('../helpers/passwordHandler');
+// const { verify } = require('../helpers/passwordHandler');
 
 class UserController {
 	static googleLogin(req, res, next) {
@@ -17,7 +18,7 @@ class UserController {
 				User.findOne({ email: payload.email }).then(user => {
 					if (user) {
 						res.status(200).json({
-							token_id: encode(user)
+							token_id: tokenHandler.encode({ id: user.id })
 						});
 					} else {
 						req.body.type = 'google';
@@ -34,9 +35,9 @@ class UserController {
 		})
 			.then(user => {
 				if (user) {
-					if (verify(req.body.password, user.password)) {
+					if (passwordHandler.verify(req.body.password, user.password)) {
 						res.status(200).json({
-							token_id: encode(user)
+							token_id: tokenHandler.encode({ id: user.id })
 						});
 					} else {
 						const err = new Error();
@@ -62,7 +63,7 @@ class UserController {
 		})
 			.then(user => {
 				res.status(201).json({
-					token_id: encode(user)
+					token_id: tokenHandler.encode({ id: user.id })
 				});
 			})
 			.catch(next);
