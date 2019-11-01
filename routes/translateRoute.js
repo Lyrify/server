@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const TranslateController = require('../controllers/TranslateController.js');
-const JWT = require('../middlewares/JWT.js');
+const { authentication } = require('../middlewares/auth');
 
-// router.get('/', JWT.authentication, JWT.authorization, TranslateController.translate);
-// router.get('/detectlanguage', JWT.authentication, JWT.authorization, TranslateController.detectLanguage);
+router.use(authentication)
+router.post('/', TranslateController.translate);
+router.post('/detectlanguage', TranslateController.detectLanguage);
 
 module.exports = router;

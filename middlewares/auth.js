@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const errorHandler = require('./errorHandler.js');
-//const Todo = require('../models/').Todo;
 
 module.exports = {
     authentication: function(err, req, res, next) {
@@ -14,15 +13,4 @@ module.exports = {
             errorHandler(err);
         }
     }
-
-    // authorization: function(err, req, res, next) {
-    //     Todo.findByPk(req.params.id)
-    //     .then((todo) => {
-    //         if(todo.UserId === req.decoded.id) {
-    //             next();
-    //         } else {
-    //             next(err);
-    //         }
-    //     })
-    // }
 }
