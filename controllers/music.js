@@ -55,7 +55,14 @@ class MusicController {
         })
       })
       .then(({data}) => {
-        res.status(200).json(data.message.body.lyrics)
+        if (data.message.header.status_code != 200) {
+          next({
+            status: data.message.header.status_code,
+            message: 'Not Found'
+          })
+        } else {
+          res.status(200).json(data.message.body.lyrics)
+        }
       })
       .catch(next)
 
