@@ -11,7 +11,7 @@ class UserController {
 		client
 			.verifyIdToken({
 				idToken: req.body.id_token,
-				audience: process.env.GOOGLE_CLIENT_ID
+				audience: process.env.GOOGLE_CLIENT_TOKEN
 			})
 			.then(ticket => {
 				const payload = ticket.getPayload();
@@ -22,6 +22,7 @@ class UserController {
 						});
 					} else {
 						req.body.type = 'google';
+						req.body.email = payload.email;
 						UserController.register(req, res, next);
 					}
 				});
@@ -59,7 +60,7 @@ class UserController {
 		User.create({
 			email: req.body.email,
 			login_type: req.body.type || 'default',
-			password: req.body.password
+			password: req.body.password || ''
 		})
 			.then(user => {
 				res.status(201).json({
