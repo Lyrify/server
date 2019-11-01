@@ -4,7 +4,7 @@ class TranslateController {
   static translate(req, res) {
     googleTranslate.translate(req.body.text, req.body.translateTo, function(err, translation) {
       if(!err) {
-        console.log(translation.translatedText);
+        // console.log(translation.translatedText);
         res.status(201).json(translation.translatedText);
       } else {
         console.log('error');
@@ -16,7 +16,7 @@ class TranslateController {
   static detectLanguage(req, res) {
     googleTranslate.detectLanguage(req.body.text, function(err, detections) {
       if(!err) {
-        console.log(detections.language);
+        // console.log(detections.language);
         res.status(201).json(detections.language);
       } else {
         console.log('error');
